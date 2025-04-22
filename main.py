@@ -5,14 +5,13 @@ import time
 import random
 
 
-service = Service(executable_path="/usr/bin/chromedriver")
-options = webdriver.ChromeOptions()
-driver = webdriver.Chrome(service=service, options=options)
+driver = webdriver.Chrome()
 driver.implicitly_wait(10)
 
 task = True
 
-driver.get("https://demo.opencart.com/")
+MAIN_PAGE = "http://localhost:8081/"
+driver.get(MAIN_PAGE)
 try:
     for i in range(2):
         driver.find_element(By.XPATH, "//*[@id=\"carousel-banner-0\"]/button[2]").click()
@@ -37,7 +36,7 @@ except:
     task = False
 
 try:
-    driver.get("https://demo.opencart.com/en-gb/catalog/desktops/pc")
+    driver.get(f"{MAIN_PAGE}/en-gb/catalog/desktops/pc")
     text = driver.find_element(By.XPATH, "//*[@id=\"content\"]/p[1]").text
     text_check = text == "There are no products to list in this category."
     if text_check:
@@ -48,7 +47,7 @@ except:
 
 numberEmail = f"{random.randint(0,9)}{random.randint(0,9)}{random.randint(0,9)}{random.randint(0,9)}"
 try:
-    driver.get("https://demo.opencart.com/en-gb?route=account/register")
+    driver.get(f"{MAIN_PAGE}/en-gb?route=account/register")
     account_field = driver.find_element(By.XPATH, "//*[@id=\"account\"]")
     account_field.find_element(By.NAME, "firstname").send_keys("Ivanov")
     account_field.find_element(By.NAME, "lastname").send_keys("Ivan")
